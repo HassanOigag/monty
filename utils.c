@@ -88,7 +88,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 
 int is_valid_op(char *opcode)
 {
-	char *opcodes[] = {"push", "pall", NULL};
+	char *opcodes[] = {"push", "pall", "pint", NULL};
 	int i = 0;
 
 	if (!opcode)
