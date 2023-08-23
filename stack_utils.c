@@ -68,3 +68,27 @@ void free_stack(stack_t *stack)
 	if (tmp)
 		free(tmp);
 }
+
+/**
+ * pop - removes the top element
+ * @stack: the stack
+ * Return: nothing
+*/
+
+void pop(stack_t **stack)
+{
+	stack_t *next;
+
+	if (!*stack)
+		return;
+	next = (*stack)->next;
+	if (!next)
+	{
+		free(*stack);
+		stack = NULL;
+		return;
+	}
+	*stack = next;
+	free(next->prev);
+	next->prev = NULL;
+}

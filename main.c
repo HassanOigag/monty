@@ -22,32 +22,8 @@ void parse_line(stack_t **my_stack, char *line, int line_number)
 		free_stack(*my_stack);
 		exit(EXIT_FAILURE);
 	}
-	if (ft_strcmp(words[0], "push") == 0)
-	{
-		if (!isstrnumber(words[1]))
-		{
-			fprintf(stderr, "L%d: usage: push integer\n", line_number);
-			free_array(words);
-			free(line);
-			free_stack(*my_stack);
-			exit(EXIT_FAILURE);
-		}
-		push(my_stack, atoi(words[1]));
-	}
-	else if (ft_strcmp(words[0], "pall") == 0)
-		print_stack(*my_stack);
-	else if (ft_strcmp(words[0], "pint") == 0)
-	{
-		if (!*my_stack)
-		{
-			fprintf(stderr, "L%d: can't pint, stack empty\n", line_number);
-			free_array(words);
-			free(line);
-			exit(EXIT_FAILURE);
-		}
-		printf("%d\n", (*my_stack)->n);
-	}
 	free_array(words);
+	do_op(my_stack, line, line_number);
 }
 
 /**

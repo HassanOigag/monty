@@ -56,11 +56,12 @@ void remove_new_line(char **s);
 int is_line_empty(char *line);
 void free_stack(stack_t *stack);
 void free_array(char **words);
-
+void do_op(stack_t **my_stack, char *line, int line_number);
 /**stack utils**/
 void malloc_error(void);
 void push(stack_t **stack, int n);
 void print_stack(stack_t *stack);
+void pop(stack_t **stack);
 char	**split(const char *s, char c);
 
 
