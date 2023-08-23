@@ -1,2 +1,1 @@
-# monty
-this is an interpreter for Monty ByteCodes files.
+this is an interpreter of the monty bytecode file

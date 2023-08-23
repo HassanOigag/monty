@@ -1,0 +1,4 @@
+*.o
+monty
+*.m
+Makefile
