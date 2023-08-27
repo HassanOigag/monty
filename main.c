@@ -16,7 +16,7 @@ void parse_line(stack_t **my_stack, char *line, int line_number)
 		malloc_error();
 	if (!is_valid_op(words[0]))
 	{
-		fprintf(stderr, "L%d: unkown instruction %s\n", line_number, words[0]);
+		fprintf(stderr, "L%d: unknown instruction %s\n", line_number, words[0]);
 		free_array(words);
 		free(line);
 		free_stack(*my_stack);

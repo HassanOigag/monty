@@ -29,6 +29,7 @@ void do_op(stack_t **my_stack, char *line, int line_number)
 
 	if (!words)
 		malloc_error();
+	/* get_operation(words[0]).f(my_stack, line_number);*/
 	if (ft_strcmp(words[0], "push") == 0)
 	{
 		if (!isstrnumber(words[1]))
