@@ -1,67 +1,73 @@
 #include "monty.h"
 
 /**
+ * partial_free - free some stuff
+ * @l: line
+ * @w: words
+ * @msg: message
+ * @ln: line number
+ * Return: nothing
+*/
+void partial_free(char *l, char **w, char *msg, int ln)
+{
+	fprintf(stderr, "L%d: %s\n", ln, msg);
+	free_array(w);
+	free(l);
+	exit(EXIT_FAILURE);
+}
+
+/**
  * full_free - free everything
- * @my_stack: the stack
- * @line: the line
- * @words: array of words
+ * @monty: monty data
  * Return: nothing
 */
 
-void full_free(stack_t *my_stack, char *line, char **words)
+void full_free(monty_t *monty)
 {
-	free_array(words);
-	free(line);
-	free_stack(my_stack);
+	free_array(monty->words);
+	free(monty->line);
+	free_stack(monty->my_stack);
 	exit(EXIT_FAILURE);
 }
 
 /**
  * do_op - do operation
- * @my_stack: the stack
- * @line: the line
- * @line_number: the line number
+ * @monty: monty data
 */
 
-void do_op(stack_t **my_stack, char *line, int line_number)
+void do_op(monty_t *monty)
 {
-	char **words = split(line, ' ');
-
-	if (!words)
-		malloc_error();
-	/* get_operation(words[0]).f(my_stack, line_number);*/
-	if (ft_strcmp(words[0], "push") == 0)
+	if (ft_strcmp(monty->words[0], "push") == 0)
 	{
-		if (!isstrnumber(words[1]))
+		if (!isstrnumber(monty->words[1]))
 		{
-			fprintf(stderr, "L%d: usage: push integer\n", line_number);
-			full_free(*my_stack, line, words);
+			fprintf(stderr, "L%d: usage: push integer\n", monty->line_number);
+			full_free(monty);
 		}
-		push(my_stack, atoi(words[1]));
+		push(&monty->my_stack, atoi(monty->words[1]));
 	}
-	else if (ft_strcmp(words[0], "pall") == 0)
-		print_stack(*my_stack);
-	else if (ft_strcmp(words[0], "pint") == 0)
+	else if (ft_strcmp(monty->words[0], "pall") == 0)
+		print_stack(monty->my_stack);
+	else if (ft_strcmp(monty->words[0], "pint") == 0)
 	{
-		if (!*my_stack)
-		{
-			fprintf(stderr, "L%d: can't pint, stack empty\n", line_number);
-			free_array(words);
-			free(line);
-			exit(EXIT_FAILURE);
-		}
-		printf("%d\n", (*my_stack)->n);
+		if (!monty->my_stack)
+			partial_free(monty->line,
+				monty->words, "can't pint, stack empty", monty->line_number);
+		printf("%d\n",	monty->my_stack->n);
 	}
-	else if (ft_strcmp(words[0], "pop") == 0)
+	else if (ft_strcmp(monty->words[0], "pop") == 0)
 	{
-		if (!*my_stack)
-		{
-			fprintf(stderr, "L%d: can't pop an empty stack\n", line_number);
-			free_array(words);
-			free(line);
-			exit(EXIT_FAILURE);
-		}
-		pop(my_stack);
+		if (!monty->my_stack)
+			partial_free(monty->line,
+			monty->words, "can't pop an empty stack", monty->line_number);
+		pop(&monty->my_stack);
 	}
-	free_array(words);
+	else if (ft_strcmp(monty->words[0], "swap") == 0)
+	{
+		if (!monty->my_stack || !monty->my_stack->next)
+			partial_free(monty->line,
+				monty->words, "can't swap, stack too short", monty->line_number);
+		swap(&monty->my_stack);
+	}
+	free_array(monty->words);
 }

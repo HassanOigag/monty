@@ -10,6 +10,8 @@
 #define BUFFER_SIZE 5
 #endif
 
+
+
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
  * @n: integer
@@ -41,6 +43,23 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+/**
+ * struct monty_s - monty structure
+ * @line: the line
+ * @words: array of words
+ * @line_number: line number
+ * @my_stack: the stack
+ * Description: monty structure
+*/
+
+typedef struct monty_s
+{
+	char *line;
+	char **words;
+	int line_number;
+	stack_t *my_stack;
+} monty_t;
+
 /**general utils**/
 char	*ft_strchr(const char *s, int c);
 size_t	ft_strlen(const char *s);
@@ -56,12 +75,13 @@ void remove_new_line(char **s);
 int is_line_empty(char *line);
 void free_stack(stack_t *stack);
 void free_array(char **words);
-void do_op(stack_t **my_stack, char *line, int line_number);
+void do_op(monty_t *monty);
 /**stack utils**/
 void malloc_error(void);
 void push(stack_t **stack, int n);
 void print_stack(stack_t *stack);
 void pop(stack_t **stack);
+void swap(stack_t **stack);
 char	**split(const char *s, char c);
 
 

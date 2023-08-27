@@ -2,28 +2,26 @@
 
 /**
  * parse_line - parses a line
- * @my_stack: the stack
- * @line: the line to parse
- * @line_number: line number
+ * @monty: the monty structure
  * Return: nothing
 */
 
-void parse_line(stack_t **my_stack, char *line, int line_number)
+void parse_line(monty_t *monty)
 {
-	char **words = split(line, ' ');
+	monty->words = split(monty->line, ' ');
 
-	if (!words)
+	if (!monty->words)
 		malloc_error();
-	if (!is_valid_op(words[0]))
+	if (!is_valid_op(monty->words[0]))
 	{
-		fprintf(stderr, "L%d: unknown instruction %s\n", line_number, words[0]);
-		free_array(words);
-		free(line);
-		free_stack(*my_stack);
+		fprintf(stderr, "L%d: unknown instruction %s\n",
+			monty->line_number, monty->words[0]);
+		free_array(monty->words);
+		free(monty->line);
+		free_stack(monty->my_stack);
 		exit(EXIT_FAILURE);
 	}
-	free_array(words);
-	do_op(my_stack, line, line_number);
+	do_op(monty);
 }
 
 /**
@@ -36,11 +34,11 @@ void parse_line(stack_t **my_stack, char *line, int line_number)
 int main(int argc, char **argv)
 {
 	char *monty_file;
-	char *line;
 	int fd;
-	int line_number = 1;
-	stack_t *my_stack = NULL;
+	monty_t monty;
 
+	monty.line_number = 1;
+	monty.my_stack = NULL;
 	if (argc != 2)
 	{
 		fprintf(stderr, "USAGE: monty file\n");
@@ -55,17 +53,18 @@ int main(int argc, char **argv)
 	}
 	while (1)
 	{
-		line = get_next_line(fd);
-		if (!line)
+		monty.line = get_next_line(fd);
+		if (!monty.line)
 			break;
-		if (!is_line_empty(line))
+		if (!is_line_empty(monty.line))
 		{
-			remove_new_line(&line);
-			parse_line(&my_stack, line, line_number);
+			remove_new_line(&monty.line);
+			parse_line(&monty);
 		}
-		free(line);
-		line_number++;
+		free(monty.line);
+		monty.line_number++;
 	}
 	close(fd);
+	free_stack(monty.my_stack);
 	return (0);
 }
