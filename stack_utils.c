@@ -77,18 +77,15 @@ void free_stack(stack_t *stack)
 
 void pop(stack_t **stack)
 {
-	stack_t *next;
+	stack_t *tmp;
 
 	if (!*stack)
 		return;
-	next = (*stack)->next;
-	if (!next)
-	{
-		free(*stack);
-		stack = NULL;
-		return;
-	}
-	*stack = next;
-	free(next->prev);
-	next->prev = NULL;
+	tmp = *stack;
+	*stack = (*stack)->next;
+	if (*stack)
+		(*stack)->prev = NULL;
+	free(tmp);
 }
+
+

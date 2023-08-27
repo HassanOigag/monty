@@ -67,6 +67,5 @@ int main(int argc, char **argv)
 		line_number++;
 	}
 	close(fd);
-	free_stack(my_stack);
 	return (0);
 }
