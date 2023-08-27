@@ -50,6 +50,8 @@ int isstrnumber(char *str)
 
 	if (!str)
 		return (0);
+	if (str[0] == '-')
+		i++;
 	while (str[i])
 	{
 		if (!(str[i] >= '0' && str[i] <= '9'))
