@@ -69,5 +69,12 @@ void do_op(monty_t *monty)
 				monty->words, "can't swap, stack too short", monty->line_number);
 		swap(&monty->my_stack);
 	}
+	else if (ft_strcmp(monty->words[0], "add") == 0)
+	{
+		if (!monty->my_stack || !monty->my_stack->next)
+			partial_free(monty->line,
+				monty->words, "can't add, stack too short", monty->line_number);
+		add(&monty->my_stack);
+	}
 	free_array(monty->words);
 }

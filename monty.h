@@ -82,6 +82,7 @@ void push(stack_t **stack, int n);
 void print_stack(stack_t *stack);
 void pop(stack_t **stack);
 void swap(stack_t **stack);
+void add(stack_t **stack_t);
 char	**split(const char *s, char c);
 
 
